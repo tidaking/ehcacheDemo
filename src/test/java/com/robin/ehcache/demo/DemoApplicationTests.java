@@ -81,4 +81,28 @@ class DemoApplicationTests {
         cacheManager.close();//通过cacheManager的close方法关闭
     }
 
+    /*
+    *  超时时间测试
+    * */
+    @Test
+    void testExpiryPolicyTest() throws InterruptedException {
+        String key = "robinKey";
+        String value = "robinValue";
+        testCache.put(key,value);
+        Thread.currentThread().sleep(6*1000);
+        log.info("create时，有效时间为5s，所以6s后，应该为空---------------->key:{},value:{}",key,testCache.get(key));
+
+        Thread.currentThread().sleep(5*1000);
+
+        log.info("access时，有效时间应该为4s，所以5s之后，应该为空 ---》 key:{},value:{}",key,testCache.get(key));
+
+
+        testCache.put(key,value);
+        testCache.put(key,value+"_new");
+        Thread.currentThread().sleep(4*1000);
+        log.info("update时，有效时间应该为3s，所以4s之后，应该为空 ---》 key:{},value:{}",key,testCache.get(key));
+
+        testCacheManager.close();
+    }
+
 }

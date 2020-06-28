@@ -8,9 +8,13 @@ import org.ehcache.config.builders.CacheManagerBuilder;
 import org.ehcache.config.builders.ResourcePoolsBuilder;
 import org.ehcache.config.units.MemoryUnit;
 import org.ehcache.expiry.Expirations;
+import org.ehcache.expiry.ExpiryPolicy;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.time.Duration;
+import java.util.function.Supplier;
 
 /**
  * Name: TestEhCacheConfig
@@ -21,8 +25,44 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class TestEhCacheConfig {
 
+    /*
+    * 过时策略
+    * */
+    @Bean("testExpiryPolicy")
+    public ExpiryPolicy testExpiryPolicy(){
+        ExpiryPolicy<String,String> testExpiryPolicy = new ExpiryPolicy<String, String>() {
+            /*
+            *  缓存被创建时的有效时间
+            * */
+            @Override
+            public Duration getExpiryForCreation(String key, String value) {
+                return Duration.ofSeconds(5L);
+            }
+
+            /*
+             *  缓存被访问时的有效时间
+             * */
+            @Override
+            public Duration getExpiryForAccess(String key, Supplier<? extends String> value) {
+                return Duration.ofSeconds(4L);
+            }
+
+            /*
+             *  缓存被更新时的有效时间
+             * */
+            @Override
+            public Duration getExpiryForUpdate(String key, Supplier<? extends String> oldValue, String newValue) {
+                return Duration.ofSeconds(3L);
+            }
+        };
+
+
+        return testExpiryPolicy;
+    }
+
+
     @Bean("testCacheConfigurationBuilder")
-    public CacheConfiguration<String, String> testCacheConfigurationBuilder(){
+    public CacheConfiguration<String, String> testCacheConfigurationBuilder(@Qualifier("testExpiryPolicy") ExpiryPolicy expiryPolicy){
         CacheConfigurationBuilder<String, String> cacheConfigurationBuilder = CacheConfigurationBuilder.newCacheConfigurationBuilder(
                 String.class,//Key Type
                 String.class,//Value Type
@@ -31,7 +71,7 @@ public class TestEhCacheConfig {
         );
 
         CacheConfiguration<String, String> cacheConfiguration = cacheConfigurationBuilder.
-//                withExpiry(Expirations.).
+                withExpiry(expiryPolicy).
                 build();
         return cacheConfiguration;
     }
