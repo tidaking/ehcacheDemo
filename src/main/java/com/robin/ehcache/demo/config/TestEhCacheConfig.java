@@ -9,6 +9,7 @@ import org.ehcache.config.builders.ResourcePoolsBuilder;
 import org.ehcache.config.units.MemoryUnit;
 import org.ehcache.expiry.Expirations;
 import org.ehcache.expiry.ExpiryPolicy;
+import org.ehcache.spi.copy.Copier;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -61,8 +62,35 @@ public class TestEhCacheConfig {
     }
 
 
+    @Bean("testStringCopier")
+    Copier<String> testCopier(){
+        Copier<String> testCopier = new Copier<String>() {
+            @Override
+            //从缓存读出时，复制一个新的对象再返回
+            public String copyForRead(String s) {
+                System.out.println("String copier进行copyForRead");
+                //由于String是值传递，所以外部进行调用之后，是不会修改原有的对象的
+                return new String(s);
+            }
+
+            @Override
+            //写入缓存时，复制一个新的对象写入到EhCache中
+            public String copyForWrite(String s) {
+                System.out.println("String copier进行copyForWrite");
+                //由于String是值传递，所以外部进行调用之后，是不会修改原有的对象的
+                return new String(s);
+            }
+        };
+
+        return testCopier;
+    }
+
+
+
     @Bean("testCacheConfigurationBuilder")
-    public CacheConfiguration<String, String> testCacheConfigurationBuilder(@Qualifier("testExpiryPolicy") ExpiryPolicy expiryPolicy){
+    public CacheConfiguration<String, String> testCacheConfigurationBuilder(@Qualifier("testExpiryPolicy") ExpiryPolicy expiryPolicy
+    ,@Qualifier("testStringCopier") Copier<String> copier
+    ){
         CacheConfigurationBuilder<String, String> cacheConfigurationBuilder = CacheConfigurationBuilder.newCacheConfigurationBuilder(
                 String.class,//Key Type
                 String.class,//Value Type
@@ -72,6 +100,8 @@ public class TestEhCacheConfig {
 
         CacheConfiguration<String, String> cacheConfiguration = cacheConfigurationBuilder.
                 withExpiry(expiryPolicy).
+                withKeyCopier(copier).
+                withValueCopier(copier).
                 build();
         return cacheConfiguration;
     }

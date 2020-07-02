@@ -4,10 +4,12 @@ import com.robin.ehcache.demo.service.TestServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.ehcache.Cache;
 import org.ehcache.CacheManager;
+import org.ehcache.core.Ehcache;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.StringUtils;
 
 
@@ -23,7 +25,9 @@ import org.springframework.util.StringUtils;
 		1.先写入SoR
         2.写入成功后，将缓存数据删除或者过期，下次读取时再加载缓存
 * */
-@SpringBootTest
+//@RunWith(SpringRunner.class)
+@SpringBootTest()
+//@SpringBootTest(classes = DemoApplication.class)
 @Slf4j
 class CacheAsideTest {
 
@@ -76,6 +80,7 @@ class CacheAsideTest {
         String value = "robinValue";
         testService.put(key, value);
         testCache.put(key, value);
+        Ehcache<String,String> cache = (Ehcache<String, String>) testCache;
 
 
         String valueNew = "robinValueNew";

@@ -26,7 +26,7 @@ public class TestPersistentEhCacheConfig {
     @Bean("testPersistentCacheManager")
     public PersistentCacheManager testPersistentCacheManager(){
         PersistentCacheManager testPersistentCacheManager = CacheManagerBuilder.newCacheManagerBuilder()
-                .with(CacheManagerBuilder.persistence(new File("D:\\8_mytemp\\ehcache", "myData")))
+                .with(CacheManagerBuilder.persistence(new File("C:\\7_temp\\ehcache", "myData")))
                 .withCache("persistent-cache", CacheConfigurationBuilder.newCacheConfigurationBuilder(Long.class, String.class,
                         ResourcePoolsBuilder.newResourcePoolsBuilder().disk(10, MemoryUnit.MB, true))
                 )
