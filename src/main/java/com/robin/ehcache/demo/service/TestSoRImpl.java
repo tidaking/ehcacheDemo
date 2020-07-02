@@ -14,7 +14,7 @@ import java.util.Map;
  **/
 @Service
 @Slf4j
-public class TestServiceImpl {
+public class TestSoRImpl {
     private Map<String,String> map = new HashMap();
 
     public String test() {

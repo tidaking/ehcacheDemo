@@ -1,6 +1,6 @@
 package com.robin.ehcache.demo;
 
-import com.robin.ehcache.demo.service.TestServiceImpl;
+import com.robin.ehcache.demo.service.TestSoRImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.ehcache.Cache;
 import org.ehcache.CacheManager;
@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.StringUtils;
 
 
@@ -32,7 +31,7 @@ import org.springframework.util.StringUtils;
 class CacheAsideTest {
 
     @Autowired
-    private TestServiceImpl testService;
+    private TestSoRImpl testService;
 
 
     @Autowired

@@ -1,15 +1,9 @@
 package com.robin.ehcache.demo;
 
-import com.robin.ehcache.demo.service.TestServiceImpl;
+import com.robin.ehcache.demo.service.TestSoRImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.ehcache.Cache;
-import org.ehcache.CacheManager;
 import org.ehcache.PersistentCacheManager;
-import org.ehcache.config.CacheConfiguration;
-import org.ehcache.config.builders.CacheConfigurationBuilder;
-import org.ehcache.config.builders.CacheManagerBuilder;
-import org.ehcache.config.builders.ResourcePoolsBuilder;
-import org.ehcache.config.units.MemoryUnit;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -20,7 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 class TestPersitentEhCacheTest {
 
     @Autowired
-    private TestServiceImpl testService;
+    private TestSoRImpl testService;
 
 
     @Autowired

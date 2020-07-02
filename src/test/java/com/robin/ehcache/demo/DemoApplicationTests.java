@@ -1,6 +1,6 @@
 package com.robin.ehcache.demo;
 
-import com.robin.ehcache.demo.service.TestServiceImpl;
+import com.robin.ehcache.demo.service.TestSoRImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.ehcache.Cache;
 import org.ehcache.CacheManager;
@@ -19,12 +19,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 class DemoApplicationTests {
 
     @Autowired
-    private TestServiceImpl testService;
+    private TestSoRImpl testService;
 
-    @Test
-    void contextLoads() throws Exception {
-        System.out.println(testService.test());
-    }
+
 
     @Autowired
     @Qualifier("testCache")

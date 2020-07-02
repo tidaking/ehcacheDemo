@@ -1,6 +1,6 @@
 package com.robin.ehcache.demo.config;
 
-import com.robin.ehcache.demo.service.TestServiceImpl;
+import com.robin.ehcache.demo.service.TestSoRImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.ehcache.Cache;
 import org.ehcache.CacheManager;
@@ -30,7 +30,7 @@ import java.util.concurrent.TimeUnit;
 public class TestCacheAsSoRConfig {
 
     @Autowired
-    private TestServiceImpl testService;
+    private TestSoRImpl testService;
 
 
     @Bean("cacheAsSoR_testCacheLoaderWriter")

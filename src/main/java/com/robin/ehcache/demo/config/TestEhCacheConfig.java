@@ -56,8 +56,6 @@ public class TestEhCacheConfig {
                 return Duration.ofSeconds(3L);
             }
         };
-
-
         return testExpiryPolicy;
     }
 
