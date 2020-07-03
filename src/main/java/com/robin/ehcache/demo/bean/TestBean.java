@@ -1,7 +1,6 @@
 package com.robin.ehcache.demo.bean;
 
 import lombok.Data;
-import lombok.ToString;
 
 /**
  * Name: TestBean
@@ -14,7 +13,7 @@ public class TestBean {
     private String id;
     private String name;
 
-    public TestBean(String id,String name){
+    public TestBean(String id, String name) {
         this.id = id;
         this.name = name;
     }
