@@ -17,10 +17,7 @@ public class Test9_Multi_Cache {
     @Test
     public void readTest() {
         String key = "robinKey";
-
-
-
-
+        String value = read(key);
     }
 
 
@@ -54,10 +51,17 @@ public class Test9_Multi_Cache {
     }
 
 
+    public void notifyUpdateCache(){
+        log.info("通知其他实例更新缓存...");
+    }
+
+
+
     public void write(String key,String value){
         writeDB(key,value);
         deleteRedis(key);//先删除靠近SoR的
         deleteEhCache(key);
+        notifyUpdateCache();//需要通知其他实例更新自己的本地缓存，可以使用Redis的订阅/发布，或者其他消息中间件通知
 
         //异步延时双删
         Thread thread = new Thread(new Runnable() {
